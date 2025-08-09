@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "XSlHvq0X7KM=",
+  "success": true,
+  "projectFilePath": "/Users/TJ/hotel-app-services/HotelApi/HotelApi.csproj",
+  "expectedPackageFiles": [
+    "/Users/TJ/.nuget/packages/microsoft.aspnetcore.openapi/9.0.8/microsoft.aspnetcore.openapi.9.0.8.nupkg.sha512",
+    "/Users/TJ/.nuget/packages/microsoft.openapi/1.6.17/microsoft.openapi.1.6.17.nupkg.sha512"
+  ],
+  "logs": []
+}
