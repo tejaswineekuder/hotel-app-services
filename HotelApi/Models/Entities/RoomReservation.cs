@@ -1,0 +1,29 @@
+using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+namespace HotelApi.Models.Entities;
+/// <summary>
+/// Represents a room reservation in the hotel.
+/// This entity includes properties for the reservation's unique identifier, the traveller associated with the reservation,
+/// the room being reserved, and the reservation date.
+/// </summary>
+/// <remarks>
+/// The reservation date is used as the "start date" for the reservation.
+/// </remarks>
+[Table("RoomReservations")]
+public class RoomReservation
+{
+	[Key]
+	public Guid ID { get; set; }
+
+	[Required]
+	public Guid TravellerId { get; set; }
+	public required Traveller Traveller { get; set; }
+
+	[Required]
+	public int RoomID { get; set; }
+	public required Room Room { get; set; }
+
+	[Required]
+	public DateTime ReservationDate { get; set; } // Use as "start date" for the reservation
+}
