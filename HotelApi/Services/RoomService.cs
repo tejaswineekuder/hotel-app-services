@@ -47,6 +47,11 @@ public class RoomService : IRoomService
         {
             return false;// Traveller or room not found
         }
+        // Check if the room is full
+        if (room.RoomReservations?.Count >= room.BedCount)
+        {
+            return false; // Room is full
+        }
         var reservation = new RoomReservation
         {
             RoomID = room.ID,
@@ -70,7 +75,11 @@ public class RoomService : IRoomService
         {
             return false; // Traveller or rooms not found
         }
-
+        // Check if the destination room is full
+        if (toRoom.RoomReservations?.Count >= toRoom.BedCount)
+        {
+            return false; // Destination room is full
+        }
         // Remove existing reservation
         var existingReservation = _context.RoomReservations
             .FirstOrDefault(rr => rr.TravellerId == traveller.ID && rr.RoomID == fromRoom.ID);
