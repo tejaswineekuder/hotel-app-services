@@ -1,0 +1,168 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>HotelApi</name>
+    </assembly>
+    <members>
+        <member name="T:HotelApi.Controllers.RoomController">
+            <summary>
+            Manages room reservations for travellers.
+            </summary>
+        </member>
+        <member name="M:HotelApi.Controllers.RoomController.GetRoomsToday">
+            <summary>
+            Fetches available rooms for today.
+            </summary>
+        </member>
+        <member name="M:HotelApi.Controllers.RoomController.GetRoomsByGroup(System.String)">
+            <summary>
+            Fetches available rooms for a specific travel group.
+            </summary>
+        </member>
+        <member name="M:HotelApi.Controllers.RoomController.GetRoomByCode(System.String)">
+            <summary>
+            Fetches a room by its code.
+            </summary>
+        </member>
+        <member name="M:HotelApi.Controllers.RoomController.AssignToRoom(HotelApi.Models.DTOs.AssignTravellerDto)">
+            <summary>
+            Assigns a traveller to a room.
+            </summary>
+        </member>
+        <member name="M:HotelApi.Controllers.RoomController.MoveTraveller(HotelApi.Models.DTOs.MoveTravellerDto)">
+            <summary>
+            Moves a traveller from one room to another.
+            </summary>
+        </member>
+        <member name="T:HotelApi.Data.HotelDbContext">
+            <summary>
+            Represents the database context for the hotel API.
+            This context manages the entities related to hotel operations such as travel groups, travellers, rooms,
+            and room reservations.
+            It configures the relationships between these entities and sets up the database schema.
+            </summary>
+        </member>
+        <member name="M:HotelApi.Interfaces.IRoomService.GetRoomsForToday">
+            <summary>
+            Fetches available rooms for today.
+            </summary>
+            <returns>A list of available rooms for today.</returns>
+        </member>
+        <member name="M:HotelApi.Interfaces.IRoomService.GetRoomsForGroup(System.String)">
+            <summary>
+            Fetches available rooms for a specific travel group.
+            </summary>
+            <param name="groupId">The ID of the travel group.</param>
+            <returns>A list of available rooms for the specified group.</returns>
+        </member>
+        <member name="M:HotelApi.Interfaces.IRoomService.GetRoomByCode(System.String)">
+            <summary>
+            Fetches a room by its code.
+            </summary>
+            <param name="roomCode">The code of the room to fetch.</param>
+            <returns>The room entity if found, otherwise null.</returns>
+        </member>
+        <member name="M:HotelApi.Interfaces.IRoomService.AssignTravellerToRoom(System.Guid,System.String)">
+            <summary>
+            Assigns a traveller to a room.
+            </summary>
+            <param name="travellerId">The ID of the traveller to assign.</param>
+            <param name="roomCode">The code of the room to assign the traveller to.</param>
+            <returns>True if the assignment was successful, otherwise false.</returns>
+        </member>
+        <member name="M:HotelApi.Interfaces.IRoomService.MoveTraveller(System.Guid,System.String,System.String)">
+            <summary>
+            Moves a traveller from one room to another.
+            </summary>
+            <param name="travellerId">The ID of the traveller to move.</param>
+            <param name="fromRoomCode">The code of the room the traveller is currently in.</param>
+            <param name="toRoomCode">The code of the room to move the traveller to.</param>
+            <returns>True if the move was successful, otherwise false.</returns>
+        </member>
+        <member name="T:HotelApi.Models.DTOs.AssignTravellerDto">
+            <summary>
+            Data Transfer Object for assigning a traveller to a room.
+            This DTO is used to encapsulate the necessary information for assigning a traveller to a specific room.
+            It includes the traveller's ID and the room code to which the traveller is being
+            </summary>
+            <remarks>
+            The room code must be 4 digits long, and the DTO ensures that the required
+            properties are provided.
+            </remarks>
+        </member>
+        <member name="T:HotelApi.Models.DTOs.MoveTravellerDto">
+            <summary>
+            Data Transfer Object for moving a traveller from one room to another.
+            This DTO is used to encapsulate the necessary information for moving a traveller between rooms.
+            It includes the traveller's ID, the room code they are currently in, and the room code they are moving to.
+            </summary>
+            <remarks>
+            The room codes must be 4 digits long, and the DTO ensures that the required properties are provided.
+            </remarks>
+        </member>
+        <member name="T:HotelApi.Models.Entities.Room">
+            <summary>
+            Represents a room in the hotel.
+            This entity includes properties for the room's unique identifier, code, bed count,
+            and the collection of room reservations associated with it.
+            </summary>
+            <remarks>
+            The room code must be 4 digits long, and the bed count must be between 1 and 10.
+            </remarks>
+        </member>
+        <member name="T:HotelApi.Models.Entities.RoomReservation">
+            <summary>
+            Represents a room reservation in the hotel.
+            This entity includes properties for the reservation's unique identifier, the traveller associated with the reservation,
+            the room being reserved, and the reservation date.
+            </summary>
+            <remarks>
+            The reservation date is used as the "start date" for the reservation.
+            </remarks>
+        </member>
+        <member name="T:HotelApi.Models.Entities.TravelGroup">
+            <summary>
+            Represents a travel group in the hotel.
+            This entity includes properties for the group's unique identifier, arrival date,
+            and the collection of travellers associated with the group.
+            </summary>
+            <remarks>
+            The group ID must not start with a leading zero and can have a maximum of two letters.
+            </remarks>
+        </member>
+        <member name="T:HotelApi.Models.Entities.Traveller">
+            <summary>
+            Represents a traveller in the hotel.
+            This entity includes properties for the traveller's unique identifier, first name, last name,
+            date of birth, and the travel group to which the traveller belongs.
+            It also includes a collection of room reservations associated with the traveller.
+            </summary>
+            <remarks>
+            The traveller's first name and last name are required.
+            The date of birth must be provided, and the travel group ID is required.
+            </remarks>
+        </member>
+        <member name="T:HotelApi.Models.Validators.GroupIdValidationAttribute">
+            <summary>
+            Custom validation attribute for validating travel group IDs.
+            The ID must be 6 characters long, start with a digit from 1-9,
+            and can contain a maximum of 2 letters.
+            </summary>
+            <remarks>
+            The ID must not start with a leading zero and can have a maximum of two letters.
+            </remarks>
+        </member>
+        <member name="T:hotel_app_services.Migrations.initialMigration">
+            <inheritdoc />
+        </member>
+        <member name="M:hotel_app_services.Migrations.initialMigration.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:hotel_app_services.Migrations.initialMigration.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:hotel_app_services.Migrations.initialMigration.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>
