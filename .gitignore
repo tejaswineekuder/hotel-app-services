@@ -1,0 +1,52 @@
+# Build results
+bin/
+obj/
+
+# Visual Studio / Rider / VS Code files
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider
+.idea/
+
+# ASP.NET Core
+wwwroot/node_modules/
+wwwroot/lib/
+
+# NuGet packages
+*.nupkg
+packages/
+
+# Logs
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# DotNet specific
+*.dotCover
+*.dotCover.exe
+*.pdb
+*.cache
+
+# Entity Framework Migrations
+Migrations/
+
+# User secrets
+secrets.json
+secrets.*
+
+# Resharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# JetBrains Rider
+.idea/
+
+# Others
+*.vs/
