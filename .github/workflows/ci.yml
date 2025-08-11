@@ -25,10 +25,10 @@ jobs:
         dotnet-version: '9.0.x'   # change to your version
 
     - name: Restore dependencies
-      run: dotnet restore /hotel-app-services.sln
+      run: dotnet restore hotel-app-services.sln
 
     - name: Build solution
-      run: dotnet build /hotel-app-services.sln --no-restore --configuration Release
+      run: dotnet build hotel-app-services.sln --no-restore --configuration Release
 
     - name: Run tests
       run: dotnet test ./HotelApi.Tests.Unit/HotelApi.Tests.Unit.csproj --no-build --verbosity normal
