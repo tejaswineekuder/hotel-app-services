@@ -25,7 +25,7 @@ jobs:
         dotnet-version: '9.0.x'   # change to your version
 
     - name: Restore dependencies
-      run: dotnet restore hotel-app-services.sln
+      run: dotnet restore ./HotelApi/HotelApi.csproj
 
     - name: Build solution
       run: dotnet build hotel-app-services.sln --no-restore --configuration Release
