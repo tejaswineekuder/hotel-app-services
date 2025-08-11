@@ -34,7 +34,7 @@ builder.Services.AddSwaggerGen(c =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 {
     app.MapOpenApi();
     app.UseSwagger();
@@ -49,8 +49,9 @@ using (var scope = app.Services.CreateScope())
     DbInitializer.Seed(db); // seeds the database with initial data only if db is empty
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseRouting(); 
+app.UseAuthorization();
 app.MapControllers();
 app.Run();
 
