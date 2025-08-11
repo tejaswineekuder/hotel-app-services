@@ -1,0 +1,34 @@
+name: .NET CI
+
+on:
+  push:
+    branches:
+      - main
+      - 'feature/**'
+      - 'bugfix/**'
+      - 'hotfix/**'
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '9.0.x'   # change to your version
+
+    - name: Restore dependencies
+      run: dotnet restore ./hotel-app-services.sln
+
+    - name: Build solution
+      run: dotnet build ./hotel-app-services.sln --no-restore --configuration Release
+
+    - name: Run tests
+      run: dotnet test ./HotelApi.Tests.Unit/HotelApi.Tests.Unit.csproj --no-build --verbosity normal

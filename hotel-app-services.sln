@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hotel-app-services", "hotel-app-services\hotel-app-services.csproj", "{3E9A38CB-3109-4A6F-BB92-78FC1D890404}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelApi", "HotelApi\HotelApi.csproj", "{3E9A38CB-3109-4A6F-BB92-78FC1D890404}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelApi.Tests.Unit", "HotelApi.Tests.Unit\HotelApi.Tests.Unit.csproj", "{62AB382D-D496-4476-BDC5-5910B6A2D059}"
 EndProject
