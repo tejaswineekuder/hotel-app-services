@@ -10,7 +10,7 @@ namespace HotelApi.Models.DTOs
         public string ReservationDate { get; set; }
         public int BedCountReserved { get; set; }
         public int BedCountAvailable { get; set; }
-        public bool IsAvailable { get => BedCountAvailable > 0; }
+        public bool BedAvailable { get => BedCountAvailable > 0; }
         public string TravellerName { get; set; } = string.Empty;
         public string TravelGroupId { get; set; } = string.Empty;
 

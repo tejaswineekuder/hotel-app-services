@@ -27,5 +27,13 @@ public class Room
     [Range(1, 10)]
     public int BedCount { get; set; }
 
+    public bool IsReserved
+    {
+        get
+        {
+            return RoomReservations?.Any(rr => rr.CheckIn == false) ?? false;
+        }
+    }
+
     public ICollection<RoomReservation>? RoomReservations { get; set; }
 }

@@ -27,4 +27,6 @@ public class RoomReservation
 
 	[Required]
 	public DateTime ReservationDate { get; set; } // Use as "start date" for the reservation
+
+	public bool CheckIn { get; set; } = false;
 }

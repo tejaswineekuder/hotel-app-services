@@ -47,6 +47,16 @@ public class RoomServiceTests
         Assert.Equal("0101", result.First().RoomCode);
     }
 
+    [Fact]
+    public async Task GetRoomsForToday_ShouldNotReturnCheckedInRooms()
+    { 
+        // Act
+        var result = await _roomService.GetRoomsForToday();
+
+        // Assert
+        Assert.Single(result);
+        Assert.Equal("0101", result.First().RoomCode);
+    }
 
     [Fact]
     public async Task AssignTravellerToRoom_ShouldReturnFalse_WhenRoomFull()
