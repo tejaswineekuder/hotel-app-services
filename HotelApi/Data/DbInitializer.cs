@@ -4,6 +4,15 @@ public static class DbInitializer
 {
     public static void Seed(HotelDbContext context)
     {
+
+        //Always update the databse to have reservation for today
+            var reservations = context.RoomReservations.ToList();
+            foreach (var res in reservations)
+            {
+                res.ReservationDate = DateTime.Today;
+            }
+            context.SaveChanges(); 
+
         if (context.Rooms.Any())
         {
             // DB has been seeded already
@@ -43,6 +52,7 @@ public static class DbInitializer
         {
             new Traveller { FirstName = "John", LastName = "Doe", DateOfBirth = new DateTime(1990, 5, 1), TravelGroupId = travelGroups[0].ID , TravelGroup = travelGroups[0]},
             new Traveller { FirstName = "Jane", LastName = "Smith", DateOfBirth = new DateTime(1988, 10, 15), TravelGroupId = travelGroups[0].ID, TravelGroup = travelGroups[0]},
+            new Traveller { FirstName = "Sarah", LastName = "Connor", DateOfBirth = new DateTime(1992, 9, 20), TravelGroupId = travelGroups[0].ID, TravelGroup = travelGroups[0]},
             new Traveller { FirstName = "Alice", LastName = "Brown", DateOfBirth = new DateTime(1995, 3, 20), TravelGroupId = travelGroups[1].ID, TravelGroup = travelGroups[1]}
         };
         context.Travellers.AddRange(travellers);
@@ -53,7 +63,8 @@ public static class DbInitializer
         {
             new RoomReservation { RoomID = rooms[0].ID, TravellerId = travellers[0].ID, ReservationDate = DateTime.Today, Room = rooms[0], Traveller = travellers[0] },
             new RoomReservation { RoomID = rooms[0].ID, TravellerId = travellers[1].ID, ReservationDate = DateTime.Today, Room = rooms[0], Traveller = travellers[1] },
-            new RoomReservation { RoomID = rooms[2].ID, TravellerId = travellers[2].ID, ReservationDate = DateTime.Today.AddDays(1), Room = rooms[2], Traveller = travellers[2]}
+            new RoomReservation { RoomID = rooms[1].ID, TravellerId = travellers[2].ID, ReservationDate = DateTime.Today, Room = rooms[1], Traveller = travellers[2] },
+            new RoomReservation { RoomID = rooms[2].ID, TravellerId = travellers[3].ID, ReservationDate = DateTime.Today, Room = rooms[2], Traveller = travellers[3]}
         };
         context.RoomReservations.AddRange(assignments);
         context.SaveChanges();

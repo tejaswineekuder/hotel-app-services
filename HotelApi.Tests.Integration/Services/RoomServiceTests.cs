@@ -10,6 +10,7 @@ using HotelApi.Data;
 using HotelApi.Tests.Integration.Data;
 using Microsoft.EntityFrameworkCore.InMemory;
 using Xunit;
+using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 
 namespace HotelApi.Tests.Integraion.Services;
@@ -54,7 +55,8 @@ public class RoomServiceTests
         var result = await _roomService.AssignTravellerToRoom(_travellerId, "0101");
 
         // Assert
-        Assert.False(result);
+        Assert.True(string.IsNullOrEmpty(result.AssignedRoomCode));
+        Assert.True(result.StatusMessage?.Contains("Room is full"));
     }
 
 
@@ -65,6 +67,7 @@ public class RoomServiceTests
         var result = await _roomService.MoveTraveller(_travellerId, "0101", "0102");
 
         // Assert
-        Assert.True(result);
+        Assert.True(result.AssignedRoomCode == "0102");
+        Assert.True(result.OldRoomCode == "0101");
     }
 }

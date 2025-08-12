@@ -6,6 +6,7 @@ namespace HotelApi.Models.Entities;
 /// Represents a room reservation in the hotel.
 /// This entity includes properties for the reservation's unique identifier, the traveller associated with the reservation,
 /// the room being reserved, and the reservation date.
+/// Each reservation is linked to a traveller, so multiple reservations on a room correspond to different traveller of the same group.
 /// </summary>
 /// <remarks>
 /// The reservation date is used as the "start date" for the reservation.

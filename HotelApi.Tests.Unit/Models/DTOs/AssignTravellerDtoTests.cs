@@ -12,7 +12,7 @@ public class AssignTravellerDtoTests
     [Fact]
     public void AssignTravellerDto_ValidData_ShouldPassValidation()
     {
-        var dto = new AssignTravellerDto
+        var dto = new AssignTravellerRequestDto
         {
             TravellerId = Guid.NewGuid(),
             RoomCode = "1234"
@@ -30,7 +30,7 @@ public class AssignTravellerDtoTests
     [Fact]
     public void AssignTravellerDto_InvalidRoomCode_ShouldFailValidation()
     {
-        var dto = new AssignTravellerDto
+        var dto = new AssignTravellerRequestDto
         {
             TravellerId = Guid.NewGuid(),
             RoomCode = "12" // Invalid room code

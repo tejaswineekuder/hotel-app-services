@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using HotelApi.Models.DTOs;
 using HotelApi.Models.Entities;
 namespace HotelApi.Interfaces;
 public interface IRoomService
@@ -7,14 +8,14 @@ public interface IRoomService
     /// Fetches available rooms for today.
     /// </summary>
     /// <returns>A list of available rooms for today.</returns>
-    Task<IEnumerable<Room>> GetRoomsForToday();
+    Task<IEnumerable<ReservationResponseDto>> GetRoomsForToday();
 
     /// <summary>
     /// Fetches available rooms for a specific travel group.
     /// </summary>
     /// <param name="groupId">The ID of the travel group.</param>
     /// <returns>A list of available rooms for the specified group.</returns>
-    Task<IEnumerable<Room>> GetRoomsForGroup(string groupId);
+    Task<IEnumerable<ReservationResponseDto>> GetRoomsForGroup(string groupId);
 
     /// <summary>
     /// Fetches a room by its code.
@@ -29,7 +30,7 @@ public interface IRoomService
     /// <param name="travellerId">The ID of the traveller to assign.</param>
     /// <param name="roomCode">The code of the room to assign the traveller to.</param>
     /// <returns>True if the assignment was successful, otherwise false.</returns>
-    Task<bool> AssignTravellerToRoom(Guid travellerId, string roomCode);
+    Task<AssignTravellerResponseDto> AssignTravellerToRoom(Guid travellerId, string roomCode);
 
     /// <summary>
     /// Moves a traveller from one room to another.
@@ -38,5 +39,5 @@ public interface IRoomService
     /// <param name="fromRoomCode">The code of the room the traveller is currently in.</param>
     /// <param name="toRoomCode">The code of the room to move the traveller to.</param>
     /// <returns>True if the move was successful, otherwise false.</returns>
-    Task<bool> MoveTraveller(Guid travellerId, string fromRoomCode, string toRoomCode);
+    Task<MoveTravellerResponseDto> MoveTraveller(Guid travellerId, string fromRoomCode, string toRoomCode);
 }
