@@ -19,7 +19,7 @@ public class RoomService : IRoomService
         // Logic to get rooms available for today
         return await _context.Rooms
             .Include(r => r.RoomReservations)
-            .Where(r => r.RoomReservations.Any(rr => rr.ReservationDate.Date == DateTime.Today))
+            .Where(r => r.RoomReservations.Any(rr => rr.ReservationDate.Date == DateTime.Today && rr.CheckIn == false))
             .Select(r => new ReservationResponseDto(
                 r.RoomCode,
                 DateTime.Today.ToString("yyyy-MM-dd"),
@@ -51,9 +51,23 @@ public class RoomService : IRoomService
     public async Task<Room> GetRoomByCode(string roomCode)
     {
         // Logic to get a room by its code
-        return await _context.Rooms
-        .Include(r=>r.RoomReservations).FirstOrDefaultAsync(r => r.RoomCode == roomCode);
+
+            var room = await _context.Rooms
+            .Where(r => r.RoomCode == roomCode)
+            .FirstOrDefaultAsync();
+
+            if (room != null && _context.Entry(room).Collection(r => r.RoomReservations).Query().Any())
+            {
+            await _context.Entry(room)
+                .Collection(r => r.RoomReservations)
+                .Query()
+                .Where(rr => rr.CheckIn == false)
+                .LoadAsync();  
+            }
+
+            return room;
     }
+    
 
     public async Task<AssignTravellerResponseDto> AssignTravellerToRoom(Guid travellerId, string roomCode)
     {
@@ -62,12 +76,12 @@ public class RoomService : IRoomService
         var traveller = await _context.Travellers.FindAsync(travellerId);
         if (traveller == null || room == null)
         {
-            return new AssignTravellerResponseDto { StatusMessage = "Traveller or rooms not found"}; 
+            return new AssignTravellerResponseDto { StatusMessage = "Traveller or rooms not found" };
         }
         // Check if the room is full
         if (room.RoomReservations?.Count >= room.BedCount)
         {
-             return new AssignTravellerResponseDto { StatusMessage = "Room is full"};  
+            return new AssignTravellerResponseDto { StatusMessage = "Room is full" };
         }
         var reservation = new RoomReservation
         {
@@ -75,7 +89,8 @@ public class RoomService : IRoomService
             TravellerId = traveller.ID,
             ReservationDate = DateTime.Today,
             Room = room,
-            Traveller = traveller
+            Traveller = traveller,
+            CheckIn = false
         };
         _context.RoomReservations.Add(reservation);
         _context.SaveChanges();
@@ -84,7 +99,7 @@ public class RoomService : IRoomService
             TravellerId = traveller.ID,
             AssignedRoomCode = room.RoomCode,
             StatusMessage = $"Traveller {traveller.FirstName} assigned to room {room.RoomCode}"
-        }; 
+        };
     }
 
     public async Task<MoveTravellerResponseDto> MoveTraveller(Guid travellerId, string fromRoomCode, string toRoomCode)
@@ -117,7 +132,8 @@ public class RoomService : IRoomService
             TravellerId = traveller.ID,
             ReservationDate = DateTime.Today,
             Room = toRoom,
-            Traveller = traveller
+            Traveller = traveller,
+            CheckIn = false 
         };
         await _context.RoomReservations.AddAsync(newReservation);
         await _context.SaveChangesAsync();
