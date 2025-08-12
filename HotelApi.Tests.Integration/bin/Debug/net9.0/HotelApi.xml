@@ -24,12 +24,12 @@
             Fetches a room by its code.
             </summary>
         </member>
-        <member name="M:HotelApi.Controllers.RoomController.AssignToRoom(HotelApi.Models.DTOs.AssignTravellerDto)">
+        <member name="M:HotelApi.Controllers.RoomController.AssignToRoom(HotelApi.Models.DTOs.AssignTravellerRequestDto)">
             <summary>
             Assigns a traveller to a room.
             </summary>
         </member>
-        <member name="M:HotelApi.Controllers.RoomController.MoveTraveller(HotelApi.Models.DTOs.MoveTravellerDto)">
+        <member name="M:HotelApi.Controllers.RoomController.MoveTraveller(HotelApi.Models.DTOs.MoveTravellerRequestDto)">
             <summary>
             Moves a traveller from one room to another.
             </summary>
@@ -79,7 +79,7 @@
             <param name="toRoomCode">The code of the room to move the traveller to.</param>
             <returns>True if the move was successful, otherwise false.</returns>
         </member>
-        <member name="T:HotelApi.Models.DTOs.AssignTravellerDto">
+        <member name="T:HotelApi.Models.DTOs.AssignTravellerRequestDto">
             <summary>
             Data Transfer Object for assigning a traveller to a room.
             This DTO is used to encapsulate the necessary information for assigning a traveller to a specific room.
@@ -90,7 +90,14 @@
             properties are provided.
             </remarks>
         </member>
-        <member name="T:HotelApi.Models.DTOs.MoveTravellerDto">
+        <member name="T:HotelApi.Models.DTOs.AssignTravellerResponseDto">
+            <summary>
+            Response Data Transfer Object for assigning a rooom to traveller.
+            This DTO is used to encapsulate the necessary information after a traveller has been assigned to a room.
+            It includes the traveller's ID, the assigned room code, and a status message indicating the room they were assigned to.
+            </summary>
+        </member>
+        <member name="T:HotelApi.Models.DTOs.MoveTravellerRequestDto">
             <summary>
             Data Transfer Object for moving a traveller from one room to another.
             This DTO is used to encapsulate the necessary information for moving a traveller between rooms.
@@ -99,6 +106,19 @@
             <remarks>
             The room codes must be 4 digits long, and the DTO ensures that the required properties are provided.
             </remarks>
+        </member>
+        <member name="T:HotelApi.Models.DTOs.MoveTravellerResponseDto">
+            <summary>
+            Data Transfer Object for assigning and moving a traveller.
+            This DTO is used to encapsulate the necessary information for assigning or moving a traveller between rooms.
+            It includes the traveller's ID, the room code they are currently in, and the room code they are moving to.
+            </summary>
+        </member>
+        <member name="T:HotelApi.Models.DTOs.ReservationResponseDto">
+            <summary>
+            Data Transfer Object for room response.
+            This DTO is used to encapsulate the necessary information about a room, including its code, type, and availability.
+            </summary>
         </member>
         <member name="T:HotelApi.Models.Entities.Room">
             <summary>
@@ -115,6 +135,7 @@
             Represents a room reservation in the hotel.
             This entity includes properties for the reservation's unique identifier, the traveller associated with the reservation,
             the room being reserved, and the reservation date.
+            Each reservation is linked to a traveller, so multiple reservations on a room correspond to different traveller of the same group.
             </summary>
             <remarks>
             The reservation date is used as the "start date" for the reservation.

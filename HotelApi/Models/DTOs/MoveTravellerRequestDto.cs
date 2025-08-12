@@ -10,7 +10,7 @@ namespace HotelApi.Models.DTOs
     /// <remarks>
     /// The room codes must be 4 digits long, and the DTO ensures that the required properties are provided.
     /// </remarks>
-    public class MoveTravellerDto
+    public class MoveTravellerRequestDto
     {
         [Required]
         public required Guid TravellerId { get; set; }

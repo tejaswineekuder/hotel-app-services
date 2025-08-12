@@ -52,24 +52,24 @@ namespace HotelApi.Controllers
         /// Assigns a traveller to a room.
         /// </summary>
         [HttpPost("assign")]
-        public async Task<IActionResult> AssignToRoom([FromBody] AssignTravellerDto request)
+        public async Task<IActionResult> AssignToRoom([FromBody] AssignTravellerRequestDto request)
         {
              if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             var result = await _roomService.AssignTravellerToRoom(request.TravellerId, request.RoomCode);
-            return result ? Ok() : BadRequest("Traveller or Room not found.");
+            return result == null? Ok() : BadRequest("Traveller or Room not found.");
         }
         /// <summary>
         /// Moves a traveller from one room to another.
         /// </summary>
         [HttpPost("move")]
-        public async Task<IActionResult> MoveTraveller([FromBody] MoveTravellerDto request)
+        public async Task<IActionResult> MoveTraveller([FromBody] MoveTravellerRequestDto request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             var result = await _roomService.MoveTraveller(request.TravellerId,request.FromRoomCode, request.ToRoomCode);
-            return result ? Ok() : BadRequest("Traveller Or Rooms not found..");
+            return result == null ? Ok() : BadRequest("Traveller Or Rooms not found..");
         }
 
         }
