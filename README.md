@@ -6,8 +6,9 @@ This project implements a hotel room reservation API demonstrating a clean, scal
 
 ## Table of Contents
 
-- [Project Overview](#project-overview)  
+- [Project Overview](#project--overview)  
 - [Architecture & Design](#architecture--design)
+- [Architecture Diagram](#architecture--diagram)
 - [Assumptions](#assumptions)
 - [Getting Started](#getting-started)  
 - [Configuration & Environment Variables](#configuration--environment-variables)  
@@ -46,6 +47,32 @@ This API allows management of hotel rooms and reservations. It provides endpoint
 
 ---
 
+## Architecture Diagram
+
+### API Workflow
+
+```mermaid
+graph LR
+    A[Client Request] --> B[Controller]
+    B --> C[Service Layer]
+    C --> D[Repository / DbContext]
+    D --> E[(Database)]
+    E --> D
+    D --> C
+    C --> B
+    B --> F[Response to Client]
+```
+
+### Entity Relationships
+
+```mermaid
+graph LR
+R[Room]
+    R -->|Has many| RR[RoomReservation]
+    RR -->|Belongs to| T[Traveller]
+    T -->|Belongs to| TG[TravelGroup]
+```
+
 ## Assumptions
 
 - The API is designed to handle a small to medium-scale hotel reservation system.
@@ -69,12 +96,13 @@ This API allows management of hotel rooms and reservations. It provides endpoint
 
 ### Running Locally
 
--bash
+```bash
 git clone https://github.com/tejaswineekuder/hotel-app-services.git
 cd hotel-app-services
 dotnet restore hotel-app-services.sln
 dotnet build hotel-app-services.sln
 dotnet run --project HotelApi/HotelApi.csproj
+```
 
 The API will be available at http://localhost:8080.
 
@@ -83,24 +111,27 @@ The API will be available at http://localhost:8080.
 Default configuration is stored in appsettings.json.
 Sensitive data such as connection strings should be provided via environment variables
 
--bash
+```bash
 export ConnectionStrings__DefaultConnection="Data Source=hotel.db"
+```
 This supports easy configuration override without rebuilding Docker images.
 
 ## Testing
 Run unit and integration tests via CLI:
 
--bash
+```bash
 dotnet test HotelApi.Tests.Unit/HotelApi.Tests.Unit.csproj
 dotnet test HotelApi.Tests.Integration/HotelApi.Tests.Integration.csproj
+```
 Tests are integrated into the CI pipeline for continuous verification.
 
 ## Docker
 Build and run the Docker container:
 
--bash
+```bash
 docker build -t hotelapi .
 docker run -p 8080:8080 hotelapi
+```
 The application listens on port 8080 inside the container.
 
 ##CI/CD Pipeline
@@ -109,11 +140,14 @@ GitHub Actions workflow (.github/workflows/ci-cd.yaml) automates build and testi
 Can be extended to publish Docker images to registries like DockerHub or Azure Container Registry.
 
 ## Future Improvements
--Add authentication and authorization layers.
--Enhance error handling and logging middleware.
--Implement end-to-end (e2e) tests with UI testing tools.
--Enhance validation handling.
--Deploy CI/CD pipeline to publish Docker images and automate deployments to Azure or other clouds.
+- Add authentication and authorization layers.
+- Enhance error handling and logging middleware.
+- Implement end-to-end (e2e) tests with UI testing tools.
+- Enhance validation handling.
+- Deploy CI/CD pipeline to publish Docker images and automate deployments to Azure or other clouds.
+
+
+
 
 
 
