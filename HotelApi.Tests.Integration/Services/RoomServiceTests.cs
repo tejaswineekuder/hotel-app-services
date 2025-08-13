@@ -25,7 +25,7 @@ public class RoomServiceTests
     {
         // Setup in-memory database or mock context
         var options = new DbContextOptionsBuilder<HotelDbContext>()
-            .UseInMemoryDatabase(databaseName: "HotelApiTestDb")
+            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
             .Options;
 
         _dbContext = new HotelDbContext(options);
