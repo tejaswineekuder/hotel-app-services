@@ -84,6 +84,7 @@ R[Room]
 
 --some business logic assumptions --
 - The API is designed with the assumption that it handles data for a single hotel.
+- The Guests are assumed to be handed off to a Check-In flow after Reservation flow (implemented here)
 - Multiple travelers from the same travel group can share a room, depending on the number of available beds.
 
 
