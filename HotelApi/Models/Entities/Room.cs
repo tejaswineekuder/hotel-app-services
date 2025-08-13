@@ -7,6 +7,8 @@ namespace HotelApi.Models.Entities;
 /// Represents a room in the hotel.
 /// This entity includes properties for the room's unique identifier, code, bed count,
 /// and the collection of room reservations associated with it.
+/// It also includes a property to check if the room is reserved.
+/// A room is considered reserved if there are any room reservations that have not been checked in.
 /// </summary>
 /// <remarks>
 /// The room code must be 4 digits long, and the bed count must be between 1 and 10.
