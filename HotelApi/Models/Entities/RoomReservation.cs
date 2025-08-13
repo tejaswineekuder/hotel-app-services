@@ -7,6 +7,9 @@ namespace HotelApi.Models.Entities;
 /// This entity includes properties for the reservation's unique identifier, the traveller associated with the reservation,
 /// the room being reserved, and the reservation date.
 /// Each reservation is linked to a traveller, so multiple reservations on a room correspond to different traveller of the same group.
+/// It also includes a property to indicate whether the traveller has checked in.
+/// A reservation is considered checked in if the `CheckIn` property is set to true.
+/// If the `CheckIn` property is false, it indicates that the reservation is still pending
 /// </summary>
 /// <remarks>
 /// The reservation date is used as the "start date" for the reservation.
