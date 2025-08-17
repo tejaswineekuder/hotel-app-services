@@ -34,7 +34,7 @@ namespace HotelApi.Controllers
         /// <returns>A list of available rooms for today.</returns>
         /// <response code="200">Returns the list of available rooms.</response>
         /// <response code="404">If no rooms are available for today.</response>
-        [HttpGet("rooms/today")]
+        [HttpGet("today")]
         public async Task<IActionResult> GetRoomsToday()
         {
             _logger.LogInformation("Fetching available rooms for today.");
@@ -49,21 +49,24 @@ namespace HotelApi.Controllers
         /// It checks the room reservations and returns only those rooms that are associated with the specified travel group ID.
         /// Returns a list of rooms with their details including room code, reservation date, bed count reserved, and available beds.
         /// </remarks>
-        /// <param name="groupId">The ID of the travel group.</param>
+        /// <param name="request">The request containing the ID of the travel group.</param>
         /// <returns>A list of rooms assigned to the specified travel group.</returns>
         /// <response code="200">Returns the list of rooms for the specified travel group.</response>
         /// <response code="404">If no rooms are found for the specified travel group.</response>
-        [HttpGet("rooms/group/{groupId}")]
-        public async Task<IActionResult> GetRoomsByGroup(string groupId)
+        [HttpPost("group")]
+        public async Task<IActionResult> GetRoomsByGroup([FromBody] GetRoomsByGroupRequestDto request)
         {
-            _logger.LogInformation("Fetching rooms for travel group: {GroupId}", groupId);
-            var rooms = await _roomService.GetRoomsForGroup(groupId);
+            _logger.LogInformation("Fetching rooms for travel group: {GroupId}", request.GroupId);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var rooms = await _roomService.GetRoomsForGroup(request.GroupId);
             if (rooms == null || !rooms.Any())
             {
-                _logger.LogWarning("No rooms found for travel group: {GroupId}", groupId);
+                _logger.LogWarning("No rooms found for travel group: {GroupId}", request.GroupId);
                 return NotFound();
             }
-            _logger.LogInformation("Found {RoomCount} rooms for travel group: {GroupId}", rooms.Count(), groupId);
+            _logger.LogInformation("Found {RoomCount} rooms for travel group: {GroupId}", rooms.Count(), request.GroupId);
             return Ok(rooms);
         }
 
@@ -74,21 +77,24 @@ namespace HotelApi.Controllers
         /// This endpoint retrieves a room based on its unique code.
         /// It checks the room reservations and returns the reservation details if found.
         /// </remarks>
-        /// <param name="roomCode">The unique code of the room.</param>
+        /// <param name="request">The request containing the unique code of the room.</param>
         /// <returns>The room details if found.</returns>
         /// <response code="200">Returns the room details.</response>
         /// <response code="404">If the room with the specified code is not found.</response>
-        [HttpGet("room/{roomCode}")]
-        public async Task<IActionResult> GetRoomByCode(string roomCode)
+        [HttpPost("roomcode")]
+        public async Task<IActionResult> GetRoomByCode([FromBody] GetRoomsByRoomCodeRequestDto request)
         {
-            _logger.LogInformation("Fetching room details for room code: {RoomCode}", roomCode);
-            var room = await _roomService.GetRoomByCode(roomCode);
+            _logger.LogInformation("Fetching room details for room code: {RoomCode}", request.RoomCode);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var room = await _roomService.GetRoomByCode(request.RoomCode);
             if (room == null)
             {
-                _logger.LogWarning("Room with code {RoomCode} not found.", roomCode);
+                _logger.LogWarning("Room with code {RoomCode} not found.", request.RoomCode);
                 return NotFound();
             }
-            _logger.LogInformation("Room with code {RoomCode} found.", roomCode);
+            _logger.LogInformation("Room with code {RoomCode} found.", request.RoomCode);
             return Ok(room);
         }
 
